@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APL Kimia · Analisis Pengujian Laboratorium Kimia</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --deep:#06333f;
+  --teal:#0d5c6e;
+  --aqua:#1b8ea3;
+  --aqua-2:#37b3c9;
+  --mint:#eef9fb;
+  --mint-2:#d9f0f5;
+  --amber:#ffd166;
+  --lime:#c3f06b;
+  --ink:#08313c;
+  --body:#3a6774;
+  --line:#cbe8ee;
+  --shadow:0 24px 45px -18px rgba(6,51,63,.35);
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--mint);
+  color:var(--body);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;color:var(--ink);line-height:1.15}
+
+.wrap{width:min(1180px,92%);margin-inline:auto}
+
+/* ============ NAV ============ */
+.nav{
+  position:sticky;top:0;z-index:50;
+  backdrop-filter:blur(14px);
+  background:rgba(255,255,255,.82);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;padding:14px 0;
+}
+.brand{display:flex;align-items:center;gap:11px;font-family:'Space Grotesk';font-weight:700;color:var(--deep);font-size:1.02rem}
+.brand .dot{
+  width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(140deg,var(--teal),var(--aqua-2));color:#fff;font-size:1.05rem;
+  box-shadow:0 8px 18px -8px rgba(27,142,163,.9);
+}
+.nav-links{display:flex;gap:6px;flex-wrap:wrap}
+.nav-links a{
+  text-decoration:none;color:var(--teal);font-size:.85rem;font-weight:600;
+  padding:8px 13px;border-radius:99px;transition:.2s;
+}
+.nav-links a:hover{background:var(--mint-2);color:var(--deep)}
+
+/* ============ HERO ============ */
+.hero{position:relative;min-height:620px;display:flex;align-items:center;overflow:hidden}
+.hero img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:saturate(1.05);
+}
+.hero::after{
+  content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(100deg,rgba(4,38,47,.94) 0%,rgba(6,51,63,.86) 42%,rgba(13,92,110,.35) 100%),
+    radial-gradient(circle at 88% 18%,rgba(195,240,107,.28),transparent 55%);
+}
+.hero-content{position:relative;z-index:2;padding:70px 0;max-width:680px;color:#eafaff}
+.badge{
+  display:inline-flex;align-items:center;gap:9px;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.32);
+  padding:8px 20px;border-radius:99px;
+  font-size:.76rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;
+  margin-bottom:22px;
+}
+.hero h1{font-size:clamp(2.1rem,5vw,3.7rem);color:#fff;letter-spacing:-.02em;margin-bottom:18px}
+.hero h1 em{
+  font-style:normal;
+  background:linear-gradient(95deg,var(--amber),var(--lime));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero p{font-size:1.08rem;color:#cfeef5;max-width:610px;margin-bottom:26px}
+.hero-tags{display:flex;flex-wrap:wrap;gap:10px}
+.hero-tags span{
+  background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.25);
+  color:#eafaff;padding:9px 16px;border-radius:99px;font-size:.82rem;font-weight:600;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.hero-tags span i{color:var(--lime)}
+
+/* ============ SECTION UMUM ============ */
+.section{padding:86px 0}
+.section.alt{background:#fff}
+.section-head{max-width:760px;margin:0 auto 46px;text-align:center}
+.kicker{
+  display:inline-flex;align-items:center;gap:9px;
+  background:var(--mint-2);color:var(--teal);
+  font-size:.74rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;
+  padding:7px 18px;border-radius:99px;margin-bottom:16px;
+}
+.section-head h2{font-size:clamp(1.7rem,3.4vw,2.5rem);letter-spacing:-.02em;margin-bottom:12px}
+.section-head p{color:var(--body);font-size:1.02rem}
+
+/* zigzag */
+.zig{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.zig.rev .figure{order:2}
+
+.figure{position:relative}
+.figure .frame{
+  position:relative;border-radius:30px;overflow:hidden;
+  box-shadow:var(--shadow);border:7px solid #fff;
+  background:linear-gradient(140deg,var(--teal),var(--aqua-2));
+  aspect-ratio:4/3;
+}
+.figure .frame img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.figure:hover .frame img{transform:scale(1.05)}
+.figure .tag{
+  position:absolute;left:-16px;bottom:22px;
+  background:#fff;border-radius:18px;padding:12px 18px;
+  display:flex;align-items:center;gap:11px;
+  box-shadow:0 16px 30px -14px rgba(6,51,63,.5);
+  border:1px solid var(--line);
+  font-size:.84rem;font-weight:700;color:var(--deep);
+}
+.figure .tag i{
+  width:34px;height:34px;border-radius:11px;display:grid;place-items:center;
+  background:linear-gradient(140deg,var(--teal),var(--aqua-2));color:#fff;font-size:.9rem;
+}
+.figure .tag small{display:block;font-size:.68rem;font-weight:600;color:var(--aqua);letter-spacing:1px;text-transform:uppercase}
+
+.zig h3{font-size:clamp(1.5rem,2.6vw,2.1rem);margin-bottom:16px;letter-spacing:-.02em}
+.zig p{margin-bottom:16px;font-size:1rem}
+.zig p strong{color:var(--teal)}
+
+.checklist{list-style:none;display:flex;flex-direction:column;gap:12px;margin-top:8px}
+.checklist li{display:flex;gap:12px;align-items:flex-start;font-size:.95rem;color:var(--body)}
+.checklist li i{
+  flex:0 0 26px;height:26px;border-radius:9px;display:grid;place-items:center;
+  background:var(--mint-2);color:var(--teal);font-size:.72rem;margin-top:2px;
+}
+
+/* ============ KARTU ============ */
+.grid{display:grid;gap:22px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+
+.card{
+  background:#fff;border:1px solid var(--line);border-radius:24px;
+  padding:26px 24px;transition:.25s;box-shadow:0 10px 26px -20px rgba(6,51,63,.6);
+  position:relative;overflow:hidden;
+}
+.card::before{
+  content:"";position:absolute;inset:0 auto auto 0;height:4px;width:100%;
+  background:linear-gradient(90deg,var(--aqua),var(--lime));opacity:0;transition:.25s;
+}
+.card:hover{transform:translateY(-6px);box-shadow:0 26px 40px -26px rgba(6,51,63,.65);border-color:#a9dbe6}
+.card:hover::before{opacity:1}
+.card .ico{
+  width:54px;height:54px;border-radius:17px;display:grid;place-items:center;
+  font-size:1.4rem;color:#fff;margin-bottom:16px;
+  background:linear-gradient(140deg,var(--teal),var(--aqua-2));
+  box-shadow:0 12px 22px -12px rgba(27,142,163,.95);
+}
+.card h4{font-size:1.08rem;margin-bottom:9px}
+.card p{font-size:.92rem;color:var(--body)}
+
+/* kartu bergambar */
+.pcard{
+  background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;
+  transition:.25s;box-shadow:0 10px 26px -20px rgba(6,51,63,.6);
+}
+.pcard:hover{transform:translateY(-6px);box-shadow:0 26px 40px -26px rgba(6,51,63,.65)}
+.pcard .ph{height:168px;overflow:hidden;background:linear-gradient(140deg,var(--teal),var(--aqua-2))}
+.pcard .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.pcard:hover .ph img{transform:scale(1.07)}
+.pcard .bd{padding:20px 22px 24px}
+.pcard .bd h4{font-size:1.03rem;margin-bottom:7px;display:flex;align-items:center;gap:9px}
+.pcard .bd h4 i{color:var(--aqua);font-size:.92rem}
+.pcard .bd p{font-size:.9rem}
+
+/* ============ BANNER MANFAAT ============ */
+.banner{
+  margin-top:44px;border-radius:30px;overflow:hidden;position:relative;
+  display:grid;grid-template-columns:1.15fr 1fr;align-items:stretch;
+  background:linear-gradient(120deg,var(--deep),var(--teal) 55%,var(--aqua));
+  box-shadow:var(--shadow);
+}
+.banner .txt{padding:44px 42px;color:#e9fbff}
+.banner .txt h3{color:#fff;font-size:1.55rem;margin-bottom:14px}
+.banner .txt p{color:#cbeaf2;font-size:.98rem;margin-bottom:14px}
+.banner .txt p strong{color:var(--lime)}
+.banner .pic{position:relative;min-height:280px;background:var(--teal)}
+.banner .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* ============ MOTIVASI ============ */
+.motiv{
+  position:relative;padding:96px 0;overflow:hidden;text-align:center;
+}
+.motiv img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.motiv::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(160deg,rgba(4,38,47,.93),rgba(13,92,110,.82));
+}
+.motiv .inner{position:relative;z-index:2;max-width:880px;margin-inline:auto}
+.motiv .qmark{font-size:2.6rem;color:var(--amber);margin-bottom:18px;display:block}
+.motiv blockquote{
+  font-family:'Space Grotesk';font-size:clamp(1.35rem,3vw,2.15rem);
+  color:#fff;line-height:1.35;letter-spacing:-.02em;margin-bottom:22px;
+}
+.motiv blockquote em{
+  font-style:normal;background:linear-gradient(95deg,var(--amber),var(--lime));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.motiv .sig{color:#a9dbe6;font-size:.88rem;letter-spacing:2px;text-transform:uppercase;font-weight:700}
+
+/* ============ TIM ============ */
+.team-wrap{display:grid;grid-template-columns:.95fr 1.05fr;gap:48px;align-items:center}
+.team-list{list-style:none;display:grid;gap:12px}
+.team-list li{
+  display:flex;align-items:center;gap:16px;
+  background:#fff;border:1px solid var(--line);border-radius:18px;
+  padding:14px 18px;transition:.22s;
+}
+.team-list li:hover{transform:translateX(6px);border-color:#9ed7e4;box-shadow:0 16px 26px -22px rgba(6,51,63,.8)}
+.team-list .num{
+  flex:0 0 42px;height:42px;border-radius:13px;display:grid;place-items:center;
+  font-family:'Space Grotesk';font-weight:700;color:#fff;font-size:.95rem;
+  background:linear-gradient(140deg,var(--teal),var(--aqua-2));
+}
+.team-list li:nth-child(2) .num{background:linear-gradient(140deg,#0f6f82,#37b3c9)}
+.team-list li:nth-child(3) .num{background:linear-gradient(140deg,#146f5e,#3dbfa0)}
+.team-list li:nth-child(4) .num{background:linear-gradient(140deg,#8a6d1f,#e0b544)}
+.team-list li:nth-child(5) .num{background:linear-gradient(140deg,#2b6f9a,#4fb2dd)}
+.team-list li:nth-child(6) .num{background:linear-gradient(140deg,#7a4f8a,#b981c9)}
+.team-list .nm{font-family:'Space Grotesk';font-weight:700;color:var(--ink);font-size:1rem;letter-spacing:.3px}
+.team-list .rl{font-size:.76rem;color:var(--aqua);font-weight:600;letter-spacing:1px;text-transform:uppercase}
+
+.creator-note{
+  margin-top:18px;
+  background:var(--mint-2);
+  border:1px dashed #9ed7e4;
+  border-radius:16px;
+  padding:14px 18px;
+  font-size:.88rem;
+  color:var(--teal);
+  font-weight:600;
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  line-height:1.5;
+}
+.creator-note i{color:var(--aqua);font-size:1rem;margin-top:2px}
+.creator-note strong{color:var(--deep);font-weight:800}
+.creator-note span small{display:block;font-weight:500;color:var(--body);font-size:.8rem;margin-top:3px}
+
+/* ============ FOOTER ============ */
+footer{
+  background:var(--deep);color:#b9dde7;padding:40px 0;
+}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.foot .fbrand{display:flex;align-items:center;gap:13px;color:#fff;font-family:'Space Grotesk';font-weight:700}
+.foot .fbrand i{
+  width:42px;height:42px;border-radius:13px;display:grid;place-items:center;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:var(--lime);
+}
+.foot small{display:block;font-family:'Inter';font-weight:500;font-size:.78rem;color:#8fbccb;letter-spacing:.5px}
+.foot .meta{display:flex;gap:22px;flex-wrap:wrap;font-size:.85rem;font-weight:600;color:#d6eef5}
+.foot .meta i{color:var(--lime);margin-right:7px}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:960px){
+  .zig,.banner,.team-wrap{grid-template-columns:1fr;gap:34px}
+  .zig.rev .figure{order:0}
+  .g3{grid-template-columns:1fr 1fr}
+  .banner .pic{min-height:240px;order:-1}
+  .figure .tag{left:14px}
+}
+@media(max-width:680px){
+  .section{padding:60px 0}
+  .g3,.g2{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .hero{min-height:540px}
+  .banner .txt{padding:30px 24px}
+  .figure .frame{border-width:5px}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<div class="nav">
+  <div class="wrap nav-inner">
+    <div class="brand">
+      <span class="dot"><i class="fas fa-flask"></i></span>
+      APL KIMIA
+    </div>
+    <nav class="nav-links">
+      <a href="#pengertian">Pengertian</a>
+      <a href="#alasan">Mengapa</a>
+      <a href="#karier">Prospek Karier</a>
+      <a href="#belajar">Pembelajaran</a>
+      <a href="#peluang">Peluang Kerja</a>
+      <a href="#motivasi">Motivasi</a>
+      <a href="#tim">Kelompok 5</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1600&q=80"
+       data-fallback="https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg?auto=compress&cs=tinysrgb&w=1600"
+       alt="Laboratorium kimia dengan peralatan gelas">
+  <div class="wrap hero-content">
+    <span class="badge"><i class="fas fa-atom"></i> Jurusan Analisis Pengujian Laboratorium Kimia</span>
+    <h1>Menjadi Analis <em>Laboratorium</em> Profesional Masa Depan</h1>
+    <p>APL Kimia membekali peserta didik dengan keterampilan menguji, mengukur, dan menganalisis
+       bahan kimia secara presisi. Keahlian ini menjadi bekal nyata untuk berkarier
+       di dunia industri, kesehatan, dan lingkungan.</p>
+    <div class="hero-tags">
+      <span><i class="fas fa-microscope"></i> Praktik Laboratorium</span>
+      <span><i class="fas fa-vial"></i> Alat Modern</span>
+      <span><i class="fas fa-certificate"></i> Standar ISO 17025</span>
+      <span><i class="fas fa-briefcase"></i> Prospek Luas</span>
+    </div>
+  </div>
+</header>
+
+<!-- ================= 1. PENGERTIAN ================= -->
+<section class="section" id="pengertian">
+  <div class="wrap">
+    <div class="zig">
+      <figure class="figure">
+        <div class="frame">
+          <img src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=1100&q=80"
+               data-fallback="https://images.pexels.com/photos/3825527/pexels-photo-3825527.jpeg?auto=compress&cs=tinysrgb&w=1100"
+               loading="lazy" alt="Analis melakukan pengujian sampel di laboratorium">
+        </div>
+        <div class="tag">
+          <i class="fas fa-flask"></i>
+          <div><small>Pengertian</small>Analisis &amp; Pengujian</div>
+        </div>
+      </figure>
+
+      <div>
+        <span class="kicker"><i class="fas fa-book"></i> Apa Itu APL Kimia?</span>
+        <h3>Pengertian Analisis Pengujian Laboratorium Kimia</h3>
+        <p><strong>APL Kimia (Analisis Pengujian Laboratorium Kimia)</strong> adalah program
+           keahlian yang membekali peserta didik dengan kemampuan melakukan pengujian,
+           pengukuran, dan analisis terhadap bahan, produk, maupun sampel lingkungan
+           di laboratorium kimia.</p>
+        <p>Di dalamnya kamu akan belajar cara mengambil sampel, menyiapkan larutan,
+           mengoperasikan alat analisis, mengolah data hasil uji, hingga menyusun laporan
+           pengujian yang akurat dan dapat dipertanggungjawabkan secara ilmiah.</p>
+        <ul class="checklist">
+          <li><i class="fas fa-check"></i> Berbasis praktik langsung di laboratorium</li>
+          <li><i class="fas fa-check"></i> Menekankan ketelitian, akurasi, dan keamanan kerja (K3)</li>
+          <li><i class="fas fa-check"></i> Selaras dengan kebutuhan nyata dunia industri</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 2. MENGAPA MEMILIH ================= -->
+<section class="section alt" id="alasan">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker"><i class="fas fa-star"></i> Pertimbangan</span>
+      <h2>Mengapa Memilih APL Kimia?</h2>
+      <p>Berikut sejumlah alasan kuat mengapa jurusan ini layak menjadi pilihan masa depanmu.</p>
+    </div>
+
+    <div class="zig rev">
+      <figure class="figure">
+        <div class="frame">
+          <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1100&q=80"
+               data-fallback="https://images.pexels.com/photos/954585/pexels-photo-954585.jpeg?auto=compress&cs=tinysrgb&w=1100"
+               loading="lazy" alt="Siswa melakukan praktikum kimia di laboratorium">
+        </div>
+        <div class="tag">
+          <i class="fas fa-thumbs-up"></i>
+          <div><small>Alasan</small>Kompetensi Praktis</div>
+        </div>
+      </figure>
+
+      <div class="grid g2" style="gap:18px">
+        <div class="card">
+          <div class="ico"><i class="fas fa-hands"></i></div>
+          <h4>Kompetensi Praktis</h4>
+          <p>Peserta didik dibekali keterampilan langsung untuk menguji dan menganalisis, bukan sekadar memahami teori.</p>
+        </div>
+        <div class="card">
+          <div class="ico" style="background:linear-gradient(140deg,#146f5e,#3dbfa0)"><i class="fas fa-chart-line"></i></div>
+          <h4>Peluang Kerja Luas</h4>
+          <p>Dibutuhkan di industri farmasi, pangan, lingkungan, klinis, hingga forensik.</p>
+        </div>
+        <div class="card">
+          <div class="ico" style="background:linear-gradient(140deg,#8a6d1f,#e0b544)"><i class="fas fa-microscope"></i></div>
+          <h4>Alat &amp; Teknologi Modern</h4>
+          <p>Berlatih menggunakan instrumen seperti spektrofotometer dan kromatografi.</p>
+        </div>
+        <div class="card">
+          <div class="ico" style="background:linear-gradient(140deg,#2b6f9a,#4fb2dd)"><i class="fas fa-shield-halved"></i></div>
+          <h4>Karakter Teliti</h4>
+          <p>Melatih ketelitian, kesabaran, dan integritas ilmiah dalam setiap pengujian.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 3. PROSPEK KARIER ================= -->
+<section class="section" id="karier">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker"><i class="fas fa-briefcase"></i> Prospek Karier</span>
+      <h2>Mempelajari Prospek Karier APL Kimia</h2>
+      <p>Keahlian laboratorium membuka jenjang karier yang jelas dan berkelanjutan.</p>
+    </div>
+
+    <div class="zig">
+      <figure class="figure">
+        <div class="frame">
+          <img src="https://images.unsplash.com/photo-1581093588401-fbb62a02f120?auto=format&fit=crop&w=1100&q=80"
+               data-fallback="https://images.pexels.com/photos/3735709/pexels-photo-3735709.jpeg?auto=compress&cs=tinysrgb&w=1100"
+               loading="lazy" alt="Tenaga ahli bekerja dengan peralatan laboratorium">
+        </div>
+        <div class="tag">
+          <i class="fas fa-user-graduate"></i>
+          <div><small>Karier</small>Analis Profesional</div>
+        </div>
+      </figure>
+
+      <div>
+        <h3>Dari Laboratorium Menuju Dunia Kerja</h3>
+        <p>Lulusan APL Kimia berpeluang meniti karier sebagai <strong>analis laboratorium</strong>
+           di berbagai sektor industri, atau melanjutkan pendidikan ke jenjang yang lebih tinggi.</p>
+        <ul class="checklist">
+          <li><i class="fas fa-arrow-right"></i> Analis laboratorium farmasi, pangan, dan kosmetik</li>
+          <li><i class="fas fa-arrow-right"></i> Quality Control (QC) &amp; Quality Assurance (QA)</li>
+          <li><i class="fas fa-arrow-right"></i> Analis laboratorium lingkungan dan air bersih</li>
+          <li><i class="fas fa-arrow-right"></i> Asisten laboratorium klinis dan forensik</li>
+          <li><i class="fas fa-arrow-right"></i> Peneliti muda di lembaga riset dan universitas</li>
+          <li><i class="fas fa-arrow-right"></i> Wirausaha jasa pengujian dan konsultan lingkungan</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 4. PEMBELAJARAN & MANFAAT ================= -->
+<section class="section alt" id="belajar">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker"><i class="fas fa-graduation-cap"></i> Pembelajaran</span>
+      <h2>Pembelajaran &amp; Manfaat yang Didapat</h2>
+      <p>Materi yang dipelajari serta keterampilan nyata yang terbentuk selama mengikuti pembelajaran.</p>
+    </div>
+
+    <div class="grid g3">
+      <div class="pcard">
+        <div class="ph">
+          <!-- Gambar nyata: pengukuran konsentrasi larutan kimia -->
+          <img src="https://images.pexels.com/photos/3825527/pexels-photo-3825527.jpeg?auto=compress&cs=tinysrgb&w=800"
+               data-fallback="https://images.unsplash.com/photo-1603126857599-f6e157fa2fe6?auto=format&fit=crop&w=800&q=80"
+               loading="lazy" alt="Pengukuran konsentrasi larutan kimia menggunakan pipet dan tabung reaksi">
+        </div>
+        <div class="bd">
+          <h4><i class="fas fa-flask-vial"></i> Kimia Dasar &amp; Analitik</h4>
+          <p>Mempelajari reaksi, larutan, titrasi, serta cara menghitung konsentrasi larutan dengan tepat.</p>
+        </div>
+      </div>
+
+      <div class="pcard">
+        <div class="ph">
+          <img src="https://images.unsplash.com/photo-1518152006812-edab29b069ac?auto=format&fit=crop&w=800&q=80"
+               data-fallback="https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg?auto=compress&cs=tinysrgb&w=800"
+               loading="lazy" alt="Mikroskop di laboratorium">
+        </div>
+        <div class="bd">
+          <h4><i class="fas fa-microscope"></i> Analisis Instrumen</h4>
+          <p>Mengoperasikan spektrofotometer, kromatografi, dan alat uji modern lainnya.</p>
+        </div>
+      </div>
+
+      <div class="pcard">
+        <div class="ph">
+          <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=800&q=80"
+               data-fallback="https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg?auto=compress&cs=tinysrgb&w=800"
+               loading="lazy" alt="Pengujian mikrobiologi di laboratorium">
+        </div>
+        <div class="bd">
+          <h4><i class="fas fa-bacteria"></i> Mikrobiologi &amp; Sterilitas</h4>
+          <p>Melakukan uji cemaran mikroba dan pengujian sterilitas produk.</p>
+        </div>
+      </div>
+
+      <div class="pcard">
+        <div class="ph">
+          <img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=800&q=80"
+               data-fallback="https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg?auto=compress&cs=tinysrgb&w=800"
+               loading="lazy" alt="Analis memeriksa data hasil pengujian">
+        </div>
+        <div class="bd">
+          <h4><i class="fas fa-square-root-variable"></i> Validasi Metode &amp; Statistika</h4>
+          <p>Mengolah dan menafsirkan data uji agar hasilnya sahih dan dapat dipercaya.</p>
+        </div>
+      </div>
+
+      <div class="pcard">
+        <div class="ph">
+          <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=801&q=80"
+               data-fallback="https://images.pexels.com/photos/954585/pexels-photo-954585.jpeg?auto=compress&cs=tinysrgb&w=800"
+               loading="lazy" alt="Peralatan gelas laboratorium kimia">
+        </div>
+        <div class="bd">
+          <h4><i class="fas fa-certificate"></i> Manajemen Mutu ISO 17025</h4>
+          <p>Menerapkan standar mutu laboratorium agar hasil uji diakui secara internasional.</p>
+        </div>
+      </div>
+
+      <div class="pcard">
+        <div class="ph">
+          <!-- Gambar nyata: botol kimia dengan simbol bahaya GHS -->
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/KMnO4_GHS_view_1.jpg/800px-KMnO4_GHS_view_1.jpg"
+               data-fallback="https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg?auto=compress&cs=tinysrgb&w=800"
+               loading="lazy" alt="Botol bahan kimia dengan simbol bahaya GHS di laboratorium">
+        </div>
+        <div class="bd">
+          <h4><i class="fas fa-helmet-safety"></i> K3 Laboratorium</h4>
+          <p>Menguasai keselamatan kerja, pengenalan simbol bahaya, dan penanganan bahan kimia secara aman.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- BANNER MANFAAT -->
+    <div class="banner">
+      <div class="txt">
+        <h3><i class="fas fa-gem" style="color:var(--lime);margin-right:10px"></i>Manfaat Nyata yang Didapat</h3>
+        <p>Lulusan APL Kimia memiliki keterampilan praktis yang langsung dibutuhkan industri:
+           menjaga kualitas produk, keamanan pangan, pengendalian pencemaran lingkungan,
+           hingga mendukung penegakan hukum melalui uji forensik.</p>
+        <p><strong>Keahlian ini membuka pintu karier yang luas dan berkelanjutan.</strong></p>
+      </div>
+      <div class="pic">
+        <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=900&q=80"
+             data-fallback="https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg?auto=compress&cs=tinysrgb&w=900"
+             loading="lazy" alt="Peralatan laboratorium kimia modern">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 5. PELUANG KERJA MASA DEPAN ================= -->
+<section class="section" id="peluang">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker"><i class="fas fa-rocket"></i> Masa Depan</span>
+      <h2>Peluang Bidang Kerja di Masa Depan</h2>
+      <p>Semakin ketat standar mutu produk dan lingkungan, semakin besar pula kebutuhan analis laboratorium.</p>
+    </div>
+
+    <div class="grid g3">
+      <div class="card">
+        <div class="ico"><i class="fas fa-pills"></i></div>
+        <h4>Industri Farmasi &amp; Kosmetik</h4>
+        <p>Uji bahan baku, produk jadi, dan stabilitas obat sesuai standar CPOB.</p>
+      </div>
+      <div class="card">
+        <div class="ico" style="background:linear-gradient(140deg,#146f5e,#3dbfa0)"><i class="fas fa-utensils"></i></div>
+        <h4>Pangan &amp; Minuman</h4>
+        <p>Analisis gizi, kadar air, cemaran, dan keamanan pangan sebelum diedarkan.</p>
+      </div>
+      <div class="card">
+        <div class="ico" style="background:linear-gradient(140deg,#2b6f9a,#4fb2dd)"><i class="fas fa-leaf"></i></div>
+        <h4>Lingkungan</h4>
+        <p>Pengujian kualitas air, udara, dan tanah untuk pengendalian pencemaran.</p>
+      </div>
+      <div class="card">
+        <div class="ico" style="background:linear-gradient(140deg,#8a6d1f,#e0b544)"><i class="fas fa-heart-pulse"></i></div>
+        <h4>Laboratorium Klinis &amp; Forensik</h4>
+        <p>Pemeriksaan sampel biologis dan barang bukti untuk kesehatan serta hukum.</p>
+      </div>
+      <div class="card">
+        <div class="ico" style="background:linear-gradient(140deg,#7a4f8a,#b981c9)"><i class="fas fa-industry"></i></div>
+        <h4>Migas, Tambang &amp; Material</h4>
+        <p>Uji kualitas bahan bakar, mineral, dan material industri secara berkala.</p>
+      </div>
+      <div class="card">
+        <div class="ico" style="background:linear-gradient(140deg,#0f6f82,#37b3c9)"><i class="fas fa-lightbulb"></i></div>
+        <h4>Riset, Pendidikan &amp; Wirausaha</h4>
+        <p>Menjadi peneliti, instruktur laboratorium, atau membuka jasa pengujian.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 6. MOTIVASI ================= -->
+<section class="motiv" id="motivasi">
+  <img class="bg"
+       src="https://images.unsplash.com/photo-1518152006812-edab29b069ac?auto=format&fit=crop&w=1600&q=80"
+       data-fallback="https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg?auto=compress&cs=tinysrgb&w=1600"
+       loading="lazy" alt="Mikroskop dan suasana laboratorium">
+  <div class="wrap inner">
+    <i class="fas fa-quote-left qmark"></i>
+    <blockquote>
+      “Setiap tetes larutan yang kamu ukur hari ini adalah <em>kontribusi nyata</em>
+      bagi kualitas hidup banyak orang. Tetaplah teliti, rendah hati,
+      dan terus belajar.”
+    </blockquote>
+    <div class="sig">— APL Kimia · Generasi Analis Berdaya Saing Global</div>
+  </div>
+</section>
+
+<!-- ================= 7. TIM KELOMPOK 5 ================= -->
+<section class="section alt" id="tim">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker"><i class="fas fa-users"></i> Tim Penyusun</span>
+      <h2>Kelompok 5</h2>
+      <p>Website ini dikembangkan oleh Kelompok 5 sebagai tugas mata pelajaran APL Kimia.</p>
+    </div>
+
+    <div class="team-wrap">
+      <figure class="figure">
+        <div class="frame">
+          <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1100&q=80"
+               data-fallback="https://images.pexels.com/photos/954585/pexels-photo-954585.jpeg?auto=compress&cs=tinysrgb&w=1100"
+               loading="lazy" alt="Kelompok siswa berdiskusi bersama">
+        </div>
+        <div class="tag">
+          <i class="fas fa-users"></i>
+          <div><small>Kelompok</small>6 Anggota</div>
+        </div>
+      </figure>
+
+      <div>
+        <ul class="team-list">
+          <li><span class="num">01</span><div><div class="nm">NADIF</div><div class="rl">Anggota</div></div></li>
+          <li><span class="num">02</span><div><div class="nm">FAHRI</div><div class="rl">Anggota</div></div></li>
+          <li><span class="num">03</span><div><div class="nm">OSAMA</div><div class="rl">Anggota</div></div></li>
+          <li><span class="num">04</span><div><div class="nm">NIA</div><div class="rl">Anggota</div></div></li>
+          <li><span class="num">05</span><div><div class="nm">MESYA</div><div class="rl">Anggota</div></div></li>
+          <li><span class="num">06</span><div><div class="nm">ANDINI</div><div class="rl">Anggota</div></div></li>
+        </ul>
+
+        <div class="creator-note">
+          <i class="fas fa-code"></i>
+          <span>
+            Pembuat Website: <strong>MIKAIL FALAQ GIBRAN SITORUS</strong>
+            <small>Dibangun menggunakan HTML, CSS, JavaScript, dan Python.</small>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap foot">
+    <div class="fbrand">
+      <i class="fas fa-flask"></i>
+      <div>
+        Jurusan Analisis Pengujian Laboratorium Kimia
+        <small>Manfaat · Prospek · Materi · Keunggulan</small>
+      </div>
+    </div>
+    <div class="meta">
+      <span><i class="fas fa-users"></i> KELOMPOK 5</span>
+      <span><i class="fas fa-code"></i> MIKAIL FALAQ GIBRAN SITORUS</span>
+      <span><i class="fas fa-phone-alt"></i> 083852228087</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* Fallback gambar: jika gambar utama gagal dimuat, gunakan URL cadangan */
+  document.querySelectorAll('img[data-fallback]').forEach(function (img) {
+    img.addEventListener('error', function () {
+      var fb = this.getAttribute('data-fallback');
+      if (fb && this.src !== fb) { this.src = fb; }
+    });
+    img.addEventListener('load', function(){ this.style.opacity = 1; });
+  });
+</script>
+
+</body>
+</html>
